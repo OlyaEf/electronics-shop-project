@@ -16,3 +16,5 @@ def item2():
 @pytest.fixture
 def all_items(item1, item2):
     return [item1, item2]
+
+
