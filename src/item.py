@@ -24,10 +24,18 @@ class Item:
 
     def __repr__(self) -> str:
         """
-        Возвращает строковое представление объекта Item в читабельном формате.
+        Возвращает строковое представление объекта Item в классе отладки.
         :return: Строковое представление объекта Item.
         """
-        return f"{self.name} ({self.quantity} шт.) - {self.price}р."
+        return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление объекта для пользовательского представления.
+        Returns:
+        str: Строковое представление объекта.
+        """
+        return self.name
 
     def calculate_total_price(self) -> float:
         """
