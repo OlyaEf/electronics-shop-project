@@ -16,7 +16,7 @@ files = [
 name = "coverage"
 version = "7.2.5"
 description = "Code coverage measurement for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -215,7 +215,7 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 name = "pytest-cov"
 version = "4.0.0"
 description = "Pytest plugin for measuring coverage."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -260,4 +260,4 @@ httptools = ">=0.0.11"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4c74b3ad4e9236a3b83508bbda5e966e1f08a66fea8a094cfbd4546d08873762"
+content-hash = "81cec69e0e577804c60b23cbb9b61711509f30c53cbb37b9ee6d9020087c2510"

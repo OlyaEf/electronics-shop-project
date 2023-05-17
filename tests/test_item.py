@@ -4,13 +4,15 @@ import pytest
 
 from exceptions import TooLongName
 from src.item import Item
+from src.phone import Phone
 
 
-def test_calculate_total_price(item1: Item, item2: Item) -> None:
+def test_calculate_total_price(item1: Item, item2: Item, all_items: List[Item]) -> None:
     """
     Проверяет, что метод calculate_total_price() корректно рассчитывает
     общую цену для товаров.
     """
+    assert all_items == [item1, item2]
     assert item1.calculate_total_price() == 200000
     assert item2.calculate_total_price() == 100000
 
@@ -95,3 +97,21 @@ def test_str(item1: Item) -> None:
     Проверяет корректность вывода строкового представления объекта класса Item для пользовательского представления.
     """
     assert str(item1) == 'Смартфон'
+
+
+def test_add(item1, item2, phone1, phone2):
+    """
+    Проверяет операцию сложения (`+`) для объектов типов Item и Phone.
+
+    Исключения:
+            AssertionError: Если одно из утверждений не выполняется.
+        """
+    assert item1 + item2 == 25
+    assert phone1 + phone2 == 7
+    assert item1 + phone1 == 25
+    assert item2 + phone2 == 7
+
+    phone = Phone('iPhone 14', 120000, 5, 2)
+    other = 'Not an Item or Phone object'
+    with pytest.raises(TypeError):
+        assert phone + other == TypeError

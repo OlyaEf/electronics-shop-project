@@ -32,10 +32,25 @@ class Item:
     def __str__(self) -> str:
         """
         Возвращает строковое представление объекта для пользовательского представления.
-        Returns:
-        str: Строковое представление объекта.
+        returns:
+            str: Строковое представление объекта.
         """
         return self.name
+
+    def __add__(self, other: Union['Item', 'Phone']) -> int:
+        """
+        Реализует операцию сложения двух товаров.
+        args:
+            other (Union['Item', 'Phone']): Другой товар, который необходимо сложить с текущим.
+        returns:
+            int: Сумма количества текущего товара и другого товара.
+        raises:
+            TypeError: Если other не является экземпляром класса Item или Phone.
+        """
+        if isinstance(other, self.__class__) or issubclass(other.__class__, self.__class__):
+            return self.quantity + other.quantity
+        else:
+            raise TypeError
 
     def calculate_total_price(self) -> float:
         """
