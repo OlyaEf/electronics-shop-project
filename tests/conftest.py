@@ -1,6 +1,7 @@
 import pytest as pytest
 
 from src.item import Item
+from src.keyboard import KeyBoard
 from src.phone import Phone
 
 
@@ -27,5 +28,10 @@ def phone2():
 @pytest.fixture
 def all_items(item1, item2):
     return [item1, item2]
+
+
+@pytest.fixture
+def kb():
+    return KeyBoard('Dark Project KD87A', 9600, 5)
 
 
