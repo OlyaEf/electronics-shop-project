@@ -1,54 +1,57 @@
 from src.item import Item
 
 
-class KeyBoard(Item):
+class LangMixin:
     """
-    Класс, представляющий клавиатуру.
+    Миксин-класс, предоставляющий функциональность языка.
     """
-    language: str = 'EN'
+    def __init__(self):
+        self.__language: str = 'EN'
 
-    def __init__(self, name: str, price: float, quantity: int):
+    def change_lang(self) -> None:
         """
-        Инициализация объекта KeyBoard.
-        Параметры:
+        Изменить язык на 'EN' или 'RU'.
+        """
+        if self.__language == 'EN':
+            self.__language = 'RU'
+        else:
+            self.__language = 'EN'
+
+    @property
+    def language(self) -> str:
+        """
+        Получить текущий язык.
+        """
+        return self.__language
+
+    @language.setter
+    def language(self, new_lang: str) -> None:
+        """
+        Сеттер для свойства языка. В этой реализации игнорируется.
+        """
+        pass  # Игнорируем попытку установить язык
+
+
+class KeyBoard(Item, LangMixin):
+    """
+    Класс Keyboard, наследующийся от Item и LangMixin.
+    """
+    def __init__(self, name: str, price: float, quality: int) -> None:
+        """
+        Инициализация экземпляра Keyboard.
+        Args:
             name (str): Название клавиатуры.
             price (float): Цена клавиатуры.
-            quantity (int): Количество клавиатур.
+            quality (int): Количество клавиатур.
         """
-        super().__init__(name, price, quantity)
+        super().__init__(name, price, quality)
+        LangMixin.__init__(self)
 
-    def change_lang(self, new_lang: str = 'RU') -> 'KeyBoard':
+    def change_lang(self) -> 'KeyBoard':
         """
-        Изменяет язык клавиатуры.
-        Параметры:
-            new_lang (str): Новый язык клавиатуры. По умолчанию - 'RU'.
-        Возвращает:
-            KeyBoard: Объект KeyBoard с измененным языком.
+        Изменить язык и вернуть экземпляр KeyBoard.
+        Returns:
+            KeyBoard: Экземпляр KeyBoard.
         """
-        if new_lang.lower() == 'en':
-            self.language = 'EN'
-        elif new_lang.lower() == 'ru':
-            self.language = 'RU'
-        else:
-            raise AttributeError('AttributeError')
+        super().change_lang()
         return self
-
-
-class KeyboardMixin:
-    """
-    Миксин, представляющий функциональность изменения раскладки клавиатуры.
-    """
-    def __init__(self, *args, **kwargs):
-        """
-        Инициализация объекта KeyboardMixin.
-        """
-        super().__init__(*args, **kwargs)
-        self.keyboard_layout = 'QWERY'
-
-    def change_layout(self, new_layout: str) -> None:
-        """
-        Изменяет раскладку клавиатуры.
-        Параметры:
-            new_layout (str): Новая раскладка клавиатуры.
-        """
-        self.keyboard_layout = new_layout

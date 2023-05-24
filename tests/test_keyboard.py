@@ -22,15 +22,6 @@ def test_change_lang_with_valid_lang(kb: KeyBoard) -> None:
     assert str(kb.language) == "RU"
 
 
-def test_change_lang_with_invalid_lang(kb: KeyBoard) -> None:
-    """
-    Проверяет изменение языка на недопустимый язык.
-    """
-    with pytest.raises(AttributeError) as exc_info:
-        kb.change_lang('CH')
-    assert str(exc_info.value) == 'AttributeError'
-
-
 def test_change_lang_with_default_lang(kb: KeyBoard) -> None:
     """
     Проверяет изменение языка на язык по умолчанию.
