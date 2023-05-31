@@ -1,6 +1,7 @@
 import csv
 from typing import List, Union
 from exceptions import TooLongName
+from src.instantiate_csv_error import InstantiateCSVError
 
 
 class Item:
@@ -92,10 +93,13 @@ class Item:
         :param string: Строка, которую нужно преобразовать в число.
         :return: Целое число или число с плавающей запятой.
         """
-        if '.' in string:
-            return float(string) // 1
-        else:
-            return int(string)
+        try:
+            if '.' in string:
+                return float(string) // 1
+            else:
+                return int(string)
+        except ValueError:
+            return 0
 
     @classmethod
     def instantiate_from_csv(cls, file_path: str) -> List:
@@ -104,15 +108,21 @@ class Item:
         :param file_path: Путь к файлу CSV.
         :return: Список экземпляров класса Item.
         """
-        cls.all = []
-        items = []
-        cls.file_path = file_path
-        with open(file_path, 'r', encoding='windows-1251') as f:
-            reader = csv.reader(f)
-            next(reader)  # пропускает заголовки столбцов
-            for row in reader:
-                name = row[0]
-                price = cls.string_to_number(row[1])
-                quantity = cls.string_to_number(row[2])
-                items.append(cls(name, price, quantity))
+        try:
+            cls.all = []
+            items = []
+            cls.file_path = file_path
+            with open(file_path, 'r', encoding='windows-1251') as f:
+                reader = csv.reader(f)
+                next(reader)  # пропускает заголовки столбцов
+                for row in reader:
+                    if len(row) >= 3:
+                        name = row[0]
+                        price = cls.string_to_number(row[1])
+                        quantity = cls.string_to_number(row[2])
+                        items.append(cls(name, price, quantity))
+                    else:
+                        raise InstantiateCSVError('Файл item.csv поврежден')
+        except FileNotFoundError:
+            raise FileNotFoundError(f'Отсутствует файл {"item.csv"}')
         return items
