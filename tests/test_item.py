@@ -1,3 +1,5 @@
+import csv
+
 from typing import List
 
 import pytest
@@ -60,27 +62,57 @@ def test_name(item1: Item) -> None:
         item1.name = 'Это наименование товара более 10 символов'
 
 
+# def test_instantiate_from_csv(tmp_path: str) -> None:
+#     """
+#     Проверяет, что метод instantiate_from_csv() корректно считывает данные
+#     из файла CSV и создает объекты Item.
+#     """
+#     try:
+#         data = Item.instantiate_from_csv('/home/OlyaEf/SkyproProjects/electronics-shop-project/src/items.csv')
+#         assert len(data) == 5
+#         assert data[0].name == 'Смартфон'
+#         assert data[0].price == 100
+#         assert data[0].quantity == 1
+#         assert data[1].name == 'Ноутбук'
+#         assert data[2].price == 10
+#         assert data[3].quantity == 5
+#         assert data[4].name == 'Клавиатура'
+#     except FileNotFoundError:
+#         print(f'Тест не пройден FileNotFoundError: Отсутствует файл {"item.csv"}')
+#     except InstantiateCSVError:
+#         print(f'Тест не пройден InstantiateCSVError: Файл item.csv поврежден {"item.csv"}')
+#     else:
+#         print("Тест пройден успешно.")
+
+
 def test_instantiate_from_csv(tmp_path: str) -> None:
-    """
-    Проверяет, что метод instantiate_from_csv() корректно считывает данные
-    из файла CSV и создает объекты Item.
-    """
+    data = Item.instantiate_from_csv('/home/OlyaEf/SkyproProjects/electronics-shop-project/src/items.csv')
+    assert len(data) == 5
+    assert data[0].name == 'Смартфон'
+    assert data[0].price == 100
+    assert data[0].quantity == 1
+    assert data[1].name == 'Ноутбук'
+    assert data[2].price == 10
+    assert data[3].quantity == 5
+    assert data[4].name == 'Клавиатура'
+
+
+# def test_instantiate_from_csv_errs():
+#     with pytest.raises(FileNotFoundError):
+#         Item.instantiate_from_csv('/not_found.csv')
+#
+#     with pytest.raises(InstantiateCSVError):
+#         Item.instantiate_from_csv('tests/test_data/invalid.csv')
+
+def test_instantiate_from_csv_errs():
     try:
-        data = Item.instantiate_from_csv('/home/OlyaEf/SkyproProjects/electronics-shop-project/src/items.csv')
-        assert len(data) == 5
-        assert data[0].name == 'Смартфон'
-        assert data[0].price == 100
-        assert data[0].quantity == 1
-        assert data[1].name == 'Ноутбук'
-        assert data[2].price == 10
-        assert data[3].quantity == 5
-        assert data[4].name == 'Клавиатура'
-    except FileNotFoundError:
-        print(f'Тест не пройден FileNotFoundError: Отсутствует файл {"item.csv"}')
-    except InstantiateCSVError:
-        print(f'Тест не пройден InstantiateCSVError: Файл item.csv поврежден {"item.csv"}')
-    else:
-        print("Тест пройден успешно.")
+        Item.instantiate_from_csv('tests/test_data/invalid.csv')
+    except InstantiateCSVError as e:
+        print(f"InstantiateCSVError: {str(e)}")
+        assert False
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+        assert False
 
 
 def test_string_to_number() -> None:
